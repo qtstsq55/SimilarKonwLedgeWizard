@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FF152857" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/ll_btn"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" >
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/ll_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/ll_btn"
+        android:layout_marginTop="15dip"
+        android:layout_marginBottom="10dip"
+        android:paddingLeft="18dip"
+        android:paddingRight="18dip" >
+
+
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_guide"
+            android:text="问而达-知乎漫游指南"
+            android:layout_marginBottom="10dip"
+            />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sssss"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:layout_marginTop="15dip"
+        android:layout_marginBottom="20dip"
+        android:paddingLeft="18dip"
+        android:paddingRight="18dip" >
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:textColor="@android:color/white"
+            android:background="#ff2681FF"
+            android:layout_weight="1"
+            android:text="登录" />
+
+        <View
+            android:layout_width="20dip"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:textColor="#FF808080"
+            android:background="@android:color/white"
+            android:layout_weight="1"
+            android:text="注册"/>
+    </LinearLayout>
+
+</RelativeLayout>

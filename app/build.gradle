@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.example.ucwizard"
+        minSdkVersion 21
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+}
+productFlavors {
+    String parameter = getProject().getProperties().get("parameter");
+    if ("multi".equals(parameter)) {
+        def path = "./channels.txt"
+        file(path).eachLine {
+            line ->
+                def channel = line
+                "$channel" {
+                    manifestPlaceholders = [UMENG_CHANNEL_VALUE: channel]
+                }
+        }
+    } else {
+        def channel = "dev"
+        "$channel" {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: channel]
+        }
+    }
+}
+
+
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.3'
+}
+}
