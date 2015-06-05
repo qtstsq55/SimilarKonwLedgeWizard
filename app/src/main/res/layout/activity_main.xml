@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/layout_bg"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FF152857" >
+    android:layout_height="fill_parent" >
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -25,22 +25,64 @@
         android:paddingRight="18dip" >
 
 
+<RelativeLayout
+    android:layout_gravity="center_horizontal"
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="10dip"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_guide_01"
+        android:text="观而思-知乎漫游指南"
+        />
+</RelativeLayout>
 
-        <TextView
+        <RelativeLayout
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_guide"
-            android:text="问而达-知乎漫游指南"
-            android:layout_marginBottom="10dip"
-            />
-
-        <TextView
-            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/im_page_01"
+            android:layout_marginRight="3dip"
+            android:background="@drawable/page_press"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/im_page_02"
+            android:background="@drawable/page_press"
+            android:layout_marginRight="3dip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="sssss"
-            />
+            android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/im_page_03"
+                    android:background="@drawable/page_press"
+                    android:layout_marginRight="3dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/im_page_04"
+                    android:background="@drawable/page_press"
+                    android:layout_marginRight="3dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/im_page_05"
+                    android:background="@drawable/page_press"
+                    android:layout_marginRight="3dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+</LinearLayout>
+            <ImageView
+                android:id="@+id/im_pagepress_01"
+                android:background="@drawable/page_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            </RelativeLayout>
 
 
     </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.zhwizard;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -9,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.animator.AnimationFactory;
 import com.example.animator.AnimatorValue;
 import com.example.animator.AnimatorValueImplements;
 import com.example.view.FirstView;
+import com.nineoldandroids.animation.Animator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,19 @@ public class MainActivity extends Activity {
     private static final float SHOWFROM =0.4f ;
     private   int  temp,index,status=-1;
     private FirstView firImage;
+    private View layout_bg;
+    private int red=9,green=42,blue=91;
+    private int redEnd=0,greenEnd=150,blueEnd=255;
+    private float pageDistance;
+    private ImageView im_page_press;
+    private TextView tv_guide_01;
+    private String guideString[]=new String[]{
+            "观而思-知乎漫游指南",
+            "思而动-知乎漫游指南",
+            "动而问-知乎漫游指南",
+            "问而答-知乎漫游指南",
+            "答而得-知乎漫游指南"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +53,10 @@ public class MainActivity extends Activity {
 
     private void findViews() {
         viewager=(ViewPager)findViewById(R.id.viewpager);
+        layout_bg=  findViewById(R.id.layout_bg);
+        im_page_press= (ImageView) findViewById(R.id.im_pagepress_01);
+        tv_guide_01= (TextView) findViewById(R.id.tv_guide_01);
+        pageDistance=im_page_press.getWidth()+dip2px(3);
     }
 
     private void initValue() {
@@ -121,6 +141,10 @@ public class MainActivity extends Activity {
                 list_ani.add(a);
             }
         }
+        AnimatorValue b1=new  AnimatorValueImplements(layout_bg,"backgroundColor", Color.rgb(red,green,blue),Color.rgb( (int) (red-(redEnd-red)/list_views.size()*(position+showFrom)), (int) (green+(greenEnd-green)/list_views.size()*(position+showFrom)), (int) (blue+(blueEnd-blue)/list_views.size()*(position+showFrom))));
+        list_ani.add(b1);
+        AnimatorValue b2=new  AnimatorValueImplements(im_page_press,"TranslationX",(pageDistance+im_page_press.getWidth())*(position+showFrom));
+        list_ani.add(b2);
         AnimationFactory.getInstance().createEngine().startTogether(0,null,list_ani);
     }
 
@@ -141,6 +165,39 @@ public class MainActivity extends Activity {
         @Override
         public void onPageSelected(int arg0) {
             index=arg0;
+            if(index>0){
+                tv_guide_01.setText(guideString[index-1]);
+            }
+            int height=tv_guide_01.getHeight();
+           AnimatorValue c1=new  AnimatorValueImplements(tv_guide_01,"TranslationY",-height/4f,-height/2f,-height*3/4f,(float)-height);
+            c1.getAnimator().setDuration(100);
+            c1.getAnimator().addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if(index+1<guideString.length){
+                        tv_guide_01.setText(guideString[index]);
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+            AnimatorValue c2=new  AnimatorValueImplements(tv_guide_01,"TranslationY",(float)height,height*3/4f,height/2f,height/4f,0);
+            c2.before(c1);
+            c2.getAnimator().setDuration(100);
+            AnimationFactory.getInstance().createEngine().startTogetherByLink(null,c1,c2);
         }
     }
 
@@ -252,5 +309,9 @@ public class MainActivity extends Activity {
         }
     }
 
+   private int dip2px(float dpValue){
+       float scale=getResources().getDisplayMetrics().density;
+       return (int) (dpValue*scale+.5f);
+   }
 
 }
