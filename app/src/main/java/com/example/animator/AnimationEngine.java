@@ -115,8 +115,6 @@ public class AnimationEngine {
 		if(listener!=null){
 			animationSet.addListener(listener);
 		}
-		animationSet.setDuration(duration);
-		animationSet.setInterpolator(interpolator);
 		lits.clear();
 		for(AnimatorValue animatorValue:animatorValues){
 			if(animatorValue.getAnimator()!=null){

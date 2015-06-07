@@ -13,6 +13,7 @@
             android:id="@+id/im_0"
             android:layout_marginLeft="35dip"
             android:layout_marginRight="35dip"
+          android:background="@drawable/guide_logo"
             android:layout_gravity="center_horizontal"
             android:scaleX="0.5"
             android:scaleY="0.5"

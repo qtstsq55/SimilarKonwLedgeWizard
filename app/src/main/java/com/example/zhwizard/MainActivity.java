@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,9 +25,9 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     private ViewPager viewager;
-    private LinearLayout layout;
+    private LinearLayout layout,layout_look,layout_qq,layout_sina;
     private ArrayList<View> list_views;
-    public static final  int LENGTH=5;
+    public static final  int LENGTH=6;
     private static final float SHOWFROM =0.4f ;
     private   int  temp,index,status=-1;
     private FirstView firImage;
@@ -57,6 +58,9 @@ public class MainActivity extends Activity {
         im_page_press= (ImageView) findViewById(R.id.im_pagepress_01);
         tv_guide_01= (TextView) findViewById(R.id.tv_guide_01);
         pageDistance=im_page_press.getWidth()+dip2px(3);
+        layout_look= (LinearLayout) findViewById(R.id.layout_look);
+        layout_qq= (LinearLayout) findViewById(R.id.layout_qq);
+        layout_sina= (LinearLayout) findViewById(R.id.layout_sina);
     }
 
     private void initValue() {
@@ -159,7 +163,7 @@ public class MainActivity extends Activity {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int tempPosition=index-position;
-            animateNormal(position,positionOffset,positionOffsetPixels,tempPosition);
+            animateNormal(position, positionOffset, positionOffsetPixels, tempPosition);
         }
 
         @Override
@@ -168,8 +172,18 @@ public class MainActivity extends Activity {
             if(index>0){
                 tv_guide_01.setText(guideString[index-1]);
             }
+            if(index==list_views.size()-1){
+                layout_look.setVisibility(View.VISIBLE);
+                layout_qq.setVisibility(View.VISIBLE);
+                layout_sina.setVisibility(View.VISIBLE);
+            }else{
+                layout_look.setVisibility(View.GONE);
+                layout_qq.setVisibility(View.GONE);
+                layout_sina.setVisibility(View.GONE);
+            }
             int height=tv_guide_01.getHeight();
-           AnimatorValue c1=new  AnimatorValueImplements(tv_guide_01,"TranslationY",-height/4f,-height/2f,-height*3/4f,(float)-height);
+            int width=tv_guide_01.getWidth();
+            AnimatorValue c1=new  AnimatorValueImplements(tv_guide_01,"TranslationY",-height/4f,-height/2f,-height*3/4f,(float)-height);
             c1.getAnimator().setDuration(100);
             c1.getAnimator().addListener(new Animator.AnimatorListener() {
                 @Override
@@ -179,8 +193,10 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    if(index+1<guideString.length){
+                    if (index< guideString.length) {
                         tv_guide_01.setText(guideString[index]);
+                    } else {
+                        tv_guide_01.setText("");
                     }
                 }
 
@@ -194,10 +210,31 @@ public class MainActivity extends Activity {
 
                 }
             });
+            ArrayList<AnimatorValue> list=new ArrayList<AnimatorValue>();
             AnimatorValue c2=new  AnimatorValueImplements(tv_guide_01,"TranslationY",(float)height,height*3/4f,height/2f,height/4f,0);
             c2.before(c1);
             c2.getAnimator().setDuration(100);
-            AnimationFactory.getInstance().createEngine().startTogetherByLink(null,c1,c2);
+            list.add(c1);
+            list.add(c2);
+            if(index==5){
+                AnimatorValue d1=new  AnimatorValueImplements(layout_qq,"TranslationX",(float)width/2);
+                AnimatorValue d2=new  AnimatorValueImplements(layout_sina,"TranslationX",(float)-width/2);
+                d1.before(c2);
+                d1.getAnimator().setDuration(1000);
+                d2.getAnimator().setDuration(1000);
+                list.add(d1);
+                list.add(d2);
+
+                ImageView im_0= (ImageView) list_views.get(index).findViewById(R.id.im_0);
+                AnimatorValue e1=new  AnimatorValueImplements(im_0,"TranslationY",-55f);
+                e1.before(d1);
+                e1.getAnimator().setInterpolator(new AccelerateDecelerateInterpolator());
+                e1.getAnimator().setDuration(1000);
+                list.add(e1);
+
+            }
+
+            AnimationFactory.getInstance().createEngine().startTogetherByLink(null,list.toArray(new AnimatorValue[list.size()]));
         }
     }
 
@@ -245,7 +282,8 @@ public class MainActivity extends Activity {
             ImageView im_3_1= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_1);
             ImageView im_3_2= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_2);
             ImageView im_3_3= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_3);
-            switch (arg1){
+            //这里推荐使用异步加载ImageLoader等
+             switch (arg1){
                 case 0:
                     layout.setVisibility(View.GONE);
                     firImage.startAnimation();
@@ -284,6 +322,7 @@ public class MainActivity extends Activity {
                     im_3_3.setBackgroundResource(R.drawable.ic_guide_fifth_08);
                     break;
                 case 5:
+                    im_0.setBackgroundResource(R.drawable.guide_logo);
                     break;
             }
             ((ViewPager)arg0).addView(mListViews.get(arg1));

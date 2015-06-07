@@ -25,17 +25,97 @@
         android:paddingRight="18dip" >
 
 
+
+        <LinearLayout
+            android:id="@+id/layout_look"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_width="fill_parent"
+            android:visibility="gone"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
+            android:layout_marginBottom="8dip"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginRight="12dip"
+                android:layout_width="wrap_content"
+                android:background="@drawable/ic_drawer_explore_normal"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF808080"
+                android:text="随便看看"/>
+
+
+        </LinearLayout>
+
+
+
 <RelativeLayout
     android:layout_gravity="center_horizontal"
-    android:layout_width="wrap_content"
-    android:layout_marginBottom="10dip"
+    android:layout_width="fill_parent"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="8dip"
     android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layout_qq"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_drawer_oauth_qq_normal"
+            android:layout_marginRight="12dip"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QQ登录"/>
+
+    </LinearLayout>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_guide_01"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="观而思-知乎漫游指南"
+        android:layout_marginLeft="12dip"
+        android:layout_marginRight="12dip"
         />
+
+
+    <LinearLayout
+        android:layout_alignParentRight="true"
+        android:id="@+id/layout_sina"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_drawer_oauth_sina_normal"
+            android:layout_marginRight="12dip"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微博登录"/>
+
+    </LinearLayout>
 </RelativeLayout>
 
         <RelativeLayout
@@ -76,6 +156,12 @@
                     android:layout_marginRight="3dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/im_page_06"
+                    android:background="@drawable/page_press"
+                    android:layout_marginRight="3dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 </LinearLayout>
             <ImageView
                 android:id="@+id/im_pagepress_01"
@@ -92,7 +178,7 @@
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:layout_marginTop="15dip"
+        android:layout_marginTop="10dip"
         android:layout_marginBottom="20dip"
         android:paddingLeft="18dip"
         android:paddingRight="18dip" >
