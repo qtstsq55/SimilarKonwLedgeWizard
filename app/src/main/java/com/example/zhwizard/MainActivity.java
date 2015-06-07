@@ -53,11 +53,11 @@ public class MainActivity extends Activity {
     }
 
     private void findViews() {
-        viewager=(ViewPager)findViewById(R.id.viewpager);
-        layout_bg=  findViewById(R.id.layout_bg);
-        im_page_press= (ImageView) findViewById(R.id.im_pagepress_01);
-        tv_guide_01= (TextView) findViewById(R.id.tv_guide_01);
-        pageDistance=im_page_press.getWidth()+dip2px(3);
+        viewager=(ViewPager)findViewById(R.id.viewpager);//ViewPager
+        layout_bg=  findViewById(R.id.layout_bg);//最外层背景颜色View
+        im_page_press= (ImageView) findViewById(R.id.im_pagepress_01);//移动的滑块
+        tv_guide_01= (TextView) findViewById(R.id.tv_guide_01);//底部的引导文字
+        pageDistance=im_page_press.getWidth()+dip2px(3);//滑块移动距离
         layout_look= (LinearLayout) findViewById(R.id.layout_look);
         layout_qq= (LinearLayout) findViewById(R.id.layout_qq);
         layout_sina= (LinearLayout) findViewById(R.id.layout_sina);
@@ -66,6 +66,7 @@ public class MainActivity extends Activity {
     private void initValue() {
         LayoutInflater  inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         list_views=new ArrayList<View>();
+        //反射加载6个引导页面布局
         for(int i=0;i<LENGTH;i++){
             View view = inflater.inflate(R.layout.wizard_image_item,null);
             list_views.add(view);
@@ -76,8 +77,8 @@ public class MainActivity extends Activity {
 
 
     private void animateNormal(int position,float showFrom,int showPix,int tempPosition){
-        ArrayList<View> curList=new ArrayList<View>();
-        ArrayList<View> nextList=new ArrayList<View>();
+        ArrayList<View> curList=new ArrayList<View>();//当前页面的View控件
+        ArrayList<View> nextList=new ArrayList<View>();//下一个页面的View控件
         ArrayList<AnimatorValue> list_ani=new ArrayList<AnimatorValue>();
         View nextView=null,curView=null;
         if(tempPosition>0){
@@ -88,6 +89,7 @@ public class MainActivity extends Activity {
         if(index+1<list_views.size()) {
             nextView = list_views.get(index +1);
         }
+        //加入每个页面需要动画的控件
         if(nextView!=null) {
             nextList.add(nextView.findViewById(R.id.im_0));
             nextList.add(nextView.findViewById(R.id.im_1_1));
@@ -108,6 +110,7 @@ public class MainActivity extends Activity {
             curList.add(curView.findViewById(R.id.im_3_2));
             curList.add(curView.findViewById(R.id.im_3_3));
         }
+        //当前页面加载动画的实现
         if(tempPosition>0){
                     if(status==2){
                         for(int i=0;i<curList.size();i++){
@@ -126,6 +129,7 @@ public class MainActivity extends Activity {
                     list_ani.add(a);
                 }
         }
+        //下一个页面加载动画的实现，SHOWFROM代表当前页面划过30%，加载下一个动画，具体可以自己设置
         if(showFrom<SHOWFROM){
             if(status==2){
                 for (int i = 0; i < nextList.size(); i++) {
@@ -145,10 +149,13 @@ public class MainActivity extends Activity {
                 list_ani.add(a);
             }
         }
+        //背景动画，蓝色逐渐变淡
         AnimatorValue b1=new  AnimatorValueImplements(layout_bg,"backgroundColor", Color.rgb(red,green,blue),Color.rgb( (int) (red-(redEnd-red)/list_views.size()*(position+showFrom)), (int) (green+(greenEnd-green)/list_views.size()*(position+showFrom)), (int) (blue+(blueEnd-blue)/list_views.size()*(position+showFrom))));
         list_ani.add(b1);
+        //滑块动画
         AnimatorValue b2=new  AnimatorValueImplements(im_page_press,"TranslationX",(pageDistance+im_page_press.getWidth())*(position+showFrom));
         list_ani.add(b2);
+        //设置执行时间为0，也就是随着滑动实时动画
         AnimationFactory.getInstance().createEngine().startTogether(0,null,list_ani);
     }
 
@@ -162,7 +169,9 @@ public class MainActivity extends Activity {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            //判断左右滑方向，这里凭借这个是不准的，需要与status配合(这里加上TouchListener会更好理解，有机会再加吧)
             int tempPosition=index-position;
+            //加载动画
             animateNormal(position, positionOffset, positionOffsetPixels, tempPosition);
         }
 
@@ -183,6 +192,7 @@ public class MainActivity extends Activity {
             }
             int height=tv_guide_01.getHeight();
             int width=tv_guide_01.getWidth();
+            //底部引导文字动画，从下到上，从上到下
             AnimatorValue c1=new  AnimatorValueImplements(tv_guide_01,"TranslationY",-height/4f,-height/2f,-height*3/4f,(float)-height);
             c1.getAnimator().setDuration(100);
             c1.getAnimator().addListener(new Animator.AnimatorListener() {
@@ -216,6 +226,7 @@ public class MainActivity extends Activity {
             c2.getAnimator().setDuration(100);
             list.add(c1);
             list.add(c2);
+            //最后一个页面的动画
             if(index==5){
                 AnimatorValue d1=new  AnimatorValueImplements(layout_qq,"TranslationX",(float)width/2);
                 AnimatorValue d2=new  AnimatorValueImplements(layout_sina,"TranslationX",(float)-width/2);
@@ -253,6 +264,7 @@ public class MainActivity extends Activity {
         @Override
         public void destroyItem(View arg0, int arg1, Object arg2) {
             if(getCount()>1){
+                //第一个页面的逐步显示图标的View，具体就是如前两篇博文写的一样，利用了自己重写的插值器来计算显示位置，缩放率等
                 if(arg1==0){
                     FirstView image = (FirstView)(mListViews.get(arg1).findViewById(R.id.item_image));
                     image.clearimages();
@@ -282,7 +294,7 @@ public class MainActivity extends Activity {
             ImageView im_3_1= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_1);
             ImageView im_3_2= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_2);
             ImageView im_3_3= (ImageView) mListViews.get(arg1).findViewById(R.id.im_3_3);
-            //这里推荐使用异步加载ImageLoader等
+            //这里推荐使用异步加载ImageLoader等,不然OOM谁也受不了
              switch (arg1){
                 case 0:
                     layout.setVisibility(View.GONE);
